@@ -1,36 +1,51 @@
-with open("./transactions.csv") as file:
-    data = file.readlines()
+# strip removes \n from the row
+# split separates values by provided delimiter
+def csv_to_transactions(filename):
     transactions = []
-    total_spending = 0
+    with open(filename) as file:
+        data = file.readlines()
+        for line in data[1:]:
+            merchant, category, amount = line.strip().split(",")
+            transaction = {
+                "merchant" : merchant,
+                "category" : category,
+                "amount" : float(amount)
+            }
+            transactions.append(transaction)
+    return transactions
+
+def find_largest_transaction(transactions):
     largest_transaction = 0
     largest_merchant = ""
-    transaction_equal_or_over_fifty = []
-
-    # strip removes \n from the row
-    # split separates values by provided delimiter
-    for row in data[1:]:
-        merchant, category, amount = row.strip().split(",")
-        transaction = {
-            "merchant" : merchant,
-            "category" : category,
-            "amount" : float(amount)
-        }
-
-        total_spending += transaction["amount"]
-        if largest_transaction < transaction["amount"]:
+    for transaction in transactions:
+        if transaction["amount"] > largest_transaction:
             largest_transaction = transaction["amount"]
             largest_merchant = transaction["merchant"]
-        transactions.append(transaction)
-    
+    return [largest_merchant, largest_transaction]
+
+
+def calculate_total_spending(transactions):
+    total_spending = 0
+    for transaction in transactions:
+        total_spending += transaction["amount"]
+    return total_spending
+
+def find_transactions_over_fifty(transactions):
+    transactions_over_fifty = []
     for transaction in transactions:
         if transaction["amount"] >= 50:
-            transaction_equal_or_over_fifty.append(f"{transaction['merchant']} - ${transaction['amount']}")
+            transactions_over_fifty.append(f"{transaction['merchant']} - ${transaction['amount']}")
+    return transactions_over_fifty
 
+transactions = csv_to_transactions("./transactions.csv")
+total_spending = calculate_total_spending(transactions)
+largest_merchant, largest_transaction = find_largest_transaction(transactions)
+transaction_equal_or_over_fifty = find_transactions_over_fifty(transactions)
 
-    print(transactions)
-    print(f"Total spending: ${total_spending}")
-    print(f"Largest transaction: {largest_merchant} - ${largest_transaction}")
+print(transactions)
+print(f"Total spending: ${total_spending}")
+print(f"Largest transaction: {largest_merchant} - ${largest_transaction}")
 
-    print("Transactions >= 50:")
-    for row in transaction_equal_or_over_fifty:
-        print(row)
+print("Transactions >= 50:")
+for row in transaction_equal_or_over_fifty:
+    print(row)
