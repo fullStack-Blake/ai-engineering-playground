@@ -37,15 +37,19 @@ def find_transactions_over_fifty(transactions):
             transactions_over_fifty.append(f"{transaction['merchant']} - ${transaction['amount']}")
     return transactions_over_fifty
 
-transactions = csv_to_transactions("./transactions.csv")
-total_spending = calculate_total_spending(transactions)
-largest_merchant, largest_transaction = find_largest_transaction(transactions)
-transaction_equal_or_over_fifty = find_transactions_over_fifty(transactions)
+def main():
+    transactions = csv_to_transactions("./transactions.csv")
+    total_spending = calculate_total_spending(transactions)
+    largest_merchant, largest_transaction = find_largest_transaction(transactions)
+    transaction_equal_or_over_fifty = find_transactions_over_fifty(transactions)
 
-print(transactions)
-print(f"Total spending: ${total_spending}")
-print(f"Largest transaction: {largest_merchant} - ${largest_transaction}")
+    print(transactions)
+    print(f"Total spending: ${total_spending}")
+    print(f"Largest transaction: {largest_merchant} - ${largest_transaction}")
 
-print("Transactions >= 50:")
-for row in transaction_equal_or_over_fifty:
-    print(row)
+    print("Transactions >= 50:")
+    for row in transaction_equal_or_over_fifty:
+        print(row)
+
+if __name__ == "__main__":
+    main()
