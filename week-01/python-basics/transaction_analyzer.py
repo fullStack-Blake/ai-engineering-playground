@@ -50,6 +50,14 @@ def main():
     print("Transactions >= 50:")
     for row in transaction_equal_or_over_fifty:
         print(row)
+    
+    print(f"Testing Assert")
+    
+    new_transactions = [
+        {"merchant": "UPS", "category" : "shipping", "amount": 10.0},
+        {"merchant": "Canada Post", "category" : "shipping", "amount": 20.0}
+    ]
+    assert calculate_total_spending(new_transactions) == 30.0
 
 if __name__ == "__main__":
     main()
