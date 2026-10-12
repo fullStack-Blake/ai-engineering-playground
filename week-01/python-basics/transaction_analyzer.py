@@ -55,9 +55,18 @@ def main():
     
     new_transactions = [
         {"merchant": "UPS", "category" : "shipping", "amount": 10.0},
-        {"merchant": "Canada Post", "category" : "shipping", "amount": 20.0}
+        {"merchant": "Canada Post", "category" : "shipping", "amount": "invalid"}
     ]
-    assert calculate_total_spending(new_transactions) == 30.0
+    try:
+        assert calculate_total_spending(new_transactions) == 30.0
+    except TypeError as error:
+        print(error)
+    
+    try:
+        calculate_total_spending(new_transactions)
+    except TypeError:
+        print(f"Invalid transaction amount")
+    print(f"and continues")
 
 if __name__ == "__main__":
     main()
