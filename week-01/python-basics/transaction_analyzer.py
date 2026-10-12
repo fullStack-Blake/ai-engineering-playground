@@ -34,7 +34,7 @@ def find_transactions_over_fifty(transactions):
     transactions_over_fifty = []
     for transaction in transactions:
         if transaction["amount"] >= 50:
-            transactions_over_fifty.append(f"{transaction['merchant']} - ${transaction['amount']}")
+            transactions_over_fifty.append(transaction)
     return transactions_over_fifty
 
 def main():
